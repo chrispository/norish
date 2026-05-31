@@ -7,7 +7,7 @@
 
 services:
   norish:
-    image: norishapp/norish:rc-v0.18.3-beta
+    image: norish:local
     container_name: norish-app-test
     restart: unless-stopped
     ports:

@@ -6,7 +6,11 @@ import type {
   CreateEventInput,
 } from "@norish/shared/contracts/dto/caldav";
 
-import { DAVCalendar, DAVClient } from "tsdav";
+import tsdav from "tsdav";
+import type { DAVCalendar } from "tsdav";
+
+type DAVClient = InstanceType<typeof tsdav.DAVClient>;
+const DAVClient = tsdav.DAVClient;
 import { v4 as uuidv4 } from "uuid";
 import { createLogger } from "@norish/shared-server/logger";
 

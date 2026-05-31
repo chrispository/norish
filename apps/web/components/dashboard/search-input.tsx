@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { Input } from "@heroui/react";
 import { useTranslations } from "next-intl";
@@ -9,7 +9,19 @@ import { isUrl } from "@norish/shared/lib/helpers";
 
 import Filters from "../shared/filters";
 
-import SearchFieldToggles from "./search-field-toggles";
+// ═══════════════════════════════════════════════════════════
+// CUSTOM: Tag filter buttons (not in upstream)
+// Shows all tags as clickable chips under the search bar.
+// ═══════════════════════════════════════════════════════════
+import TagFilterButtons from "./tag-filter-buttons";
+
+// ═══════════════════════════════════════════════════════════
+// CUSTOM: Search field dropdown (not in upstream)
+// Replaces the inline SearchFieldToggles that used to expand
+// below the search input on focus. Moved to a dropdown so
+// tag buttons can sit cleanly under the search bar.
+// ═══════════════════════════════════════════════════════════
+import SearchFieldDropdown from "./search-field-dropdown";
 
 import { useRecipesFiltersContext } from "@/context/recipes-filters-context";
 import { useRecipesContext } from "@/context/recipes-context";
@@ -20,8 +32,6 @@ export default function SearchInput() {
   const { importRecipe } = useRecipesContext();
   const [inputValue, setInputValue] = useState(filters.rawInput);
   const [debouncedValue] = useDebounceValue(inputValue, 300);
-  const [isFocused, setIsFocused] = useState(false);
-  const blurTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const skipNextDebounceRef = useRef(false);
 
   // Sync debounced value to filters (but skip when external sync happens)
@@ -46,15 +56,6 @@ export default function SearchInput() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters.rawInput]);
 
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (blurTimeoutRef.current) {
-        clearTimeout(blurTimeoutRef.current);
-      }
-    };
-  }, []);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
     const trimmedValue = rawValue.trim();
@@ -70,37 +71,10 @@ export default function SearchInput() {
     }
   };
 
-  const handleBlur = () => {
-    // Delay blur to allow clicks on toggles to register
-    blurTimeoutRef.current = setTimeout(() => {
-      setIsFocused(false);
-    }, 2000);
-  };
-
-  const handleFocus = () => {
-    // Cancel any pending blur
-    if (blurTimeoutRef.current) {
-      clearTimeout(blurTimeoutRef.current);
-      blurTimeoutRef.current = null;
-    }
-    setIsFocused(true);
-  };
-
-  // Reset hide timer when interacting with toggles
-  const resetHideTimer = useCallback(() => {
-    if (blurTimeoutRef.current) {
-      clearTimeout(blurTimeoutRef.current);
-      blurTimeoutRef.current = setTimeout(() => {
-        setIsFocused(false);
-      }, 2000);
-    }
-  }, []);
-
   const hasFilters = filters.rawInput.trim().length > 0 || filters.searchTags.length > 0;
-  const showFieldToggles = isFocused || inputValue.trim().length > 0;
 
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div className="flex w-full flex-col gap-5">
       <div className="flex w-full items-center gap-2">
         <Input
           isClearable
@@ -119,27 +93,25 @@ export default function SearchInput() {
           style={{ fontSize: "16px" }}
           value={inputValue}
           variant="flat"
-          onBlur={handleBlur}
           onChange={handleChange}
           onClear={() => {
             setInputValue("");
             setFilters({ rawInput: "" });
           }}
-          onFocus={handleFocus}
         />
+
+        {/* CUSTOM: Search field selector dropdown (not in upstream) */}
+        <SearchFieldDropdown />
+
         <Filters isGlass={false} />
       </div>
-      {/* Use grid for height animation - avoids layout thrashing on desktop */}
-      <div
-        className="grid transition-[grid-template-rows] duration-200 ease-out"
-        style={{
-          gridTemplateRows: showFieldToggles ? "1fr" : "0fr",
-        }}
-      >
-        <div className="overflow-hidden">
-          <SearchFieldToggles scrollable className="px-1 pb-1" onInteraction={resetHideTimer} />
-        </div>
-      </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          CUSTOM: Tag filter buttons (not in upstream)
+          One-tap recipe tag filtering displayed under search bar.
+          Keep this block during upstream merges.
+          ═══════════════════════════════════════════════════════════ */}
+      <TagFilterButtons />
     </div>
   );
 }

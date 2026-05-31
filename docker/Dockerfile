@@ -34,6 +34,9 @@ RUN apk add --no-cache python3 make g++ pkgconfig libpq-dev vips-dev
 # Tell sharp to use system libvips
 ENV SHARP_IGNORE_GLOBAL_LIBVIPS=0
 
+# Limit native C/C++ compilation parallelism to reduce memory spikes during builds
+ENV MAKEFLAGS="-j2"
+
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json .npmrc ./
 COPY apps/web/package.json ./apps/web/package.json
 COPY apps/parser-api/pyproject.toml ./apps/parser-api/pyproject.toml

@@ -23,7 +23,10 @@ export default async function Home() {
         <CreateRecipeButton />
       </div>
 
-      <div className="mb-6">
+      {/* CUSTOM: spacing between search bar/tag buttons and recipe grid.
+          gap-5 inside SearchInput = 20px. mb-4 here = 16px for a slightly
+          tighter gap below the tags. */}
+      <div className="mb-4">
         <SearchInput />
       </div>
 
