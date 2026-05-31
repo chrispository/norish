@@ -1,3 +1,13 @@
+Norish with a slight frontend tweak. All available "Tags" are now shown directly under the search bar, and the search settings moved to a button to the right of the search bar. This way, you can filter based on your various tags with a few less clicks.
+
+Before:
+
+<img width="1079" height="435" alt="image" src="https://github.com/user-attachments/assets/88707282-a5f7-44de-b31d-168950c0f273" />
+
+After:
+
+<img width="1079" height="435" alt="image" src="https://github.com/user-attachments/assets/31d76c13-55c4-4542-8abb-522dda6071b2" />
+
 <p align="center">
   <img src="./.github/assets/mockup-norish.png" width="100%" alt="Norish mockup" />
 </p>
