@@ -2,7 +2,8 @@ Norish with a slight frontend tweak. All available "Tags" are now shown directly
 
 Before:
 
-<img width="1079" height="435" alt="image" src="https://github.com/user-attachments/assets/88707282-a5f7-44de-b31d-168950c0f273" />
+<img width="1079" height="435" alt="image" src="https://github.com/user-attachments/assets/75cbca75-4f8e-489d-848b-4fbc886d233a" />
+
 
 After:
 
