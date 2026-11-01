@@ -10,7 +10,6 @@ import RecipeViewModeToggle, {
 } from "@/components/dashboard/recipe-view-mode-toggle";
 import SearchInput from "@/components/dashboard/search-input";
 import TagFilterChips from "@/components/dashboard/tag-filter-chips";
-import TodaysMeals from "@/components/dashboard/today/todays-meals";
 import RecipeGridSkeleton from "@/components/skeleton/recipe-grid-skeleton";
 import { Tabs } from "@heroui/react";
 
@@ -53,8 +52,7 @@ function RecipeLibrary({ skeleton }: { skeleton: boolean }) {
  */
 export function Dashboard({ skeleton = false }: { skeleton?: boolean }) {
   return (
-    <div className="flex min-h-0 w-full flex-1 flex-col gap-8">
-      <TodaysMeals />
+    <div className="flex min-h-0 w-full flex-1 flex-col">
       <RecipeLibrary skeleton={skeleton} />
       {skeleton ? null : <FloatingRecipeChip />}
     </div>

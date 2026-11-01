@@ -13,10 +13,7 @@ import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import { Label, ListBox, Select } from "@heroui/react";
 import { useTranslations } from "next-intl";
 
-import {
-  RECIPE_PAGE_COLORS,
-  TODAY_SECTION_VISIBILITIES,
-} from "@norish/shared/contracts/zod/device-preferences";
+import { RECIPE_PAGE_COLORS } from "@norish/shared/contracts/zod/device-preferences";
 import {
   AFTER_PLANNING_CHOICES,
   MEASUREMENT_SYSTEM_CHOICES,
@@ -37,8 +34,6 @@ export default function PreferencesCard() {
   const { isAIEnabled } = usePermissionsContext();
   const { enabledLocales, defaultLocale } = useLocaleConfigQuery();
   const router = useRouter();
-  const [todaySectionVisibility, setTodaySectionVisibility] =
-    useDevicePreference("todaySectionVisibility");
   const [hiddenItems, setHiddenItems] = useDevicePreference("hiddenItems");
   const [recipePageColor, setRecipePageColor] = useDevicePreference("recipePageColor");
   const deviceKind = useDeviceKind();
@@ -185,16 +180,6 @@ export default function PreferencesCard() {
           </Select.Popover>
         </Select>
       </SettingRow>
-      <SettingRow description={t("todaySection.description")} title={t("todaySection.title")}>
-        <ChoiceSelect
-          label={t("todaySection.title")}
-          optionLabel={(option) => t(`todaySection.options.${option}`)}
-          options={TODAY_SECTION_VISIBILITIES}
-          value={todaySectionVisibility}
-          onChange={setTodaySectionVisibility}
-        />
-      </SettingRow>
-
       {/* A choice between two colourings, not a Hidden Item: nothing is
             hidden and the page is no slimmer for it (ADR-0023). */}
       <SettingRow description={t("recipePageColor.description")} title={t("recipePageColor.title")}>
