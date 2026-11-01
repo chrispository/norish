@@ -30,6 +30,7 @@ services:
       # NEXT_PUBLIC_LOG_LEVEL: info       # trace, debug, info, warn, error, fatal (default: info in prod, debug in dev)
       # TRUSTED_ORIGINS:http://192.168.1.100:3000,https://norish.example.com  # Additional trusted origins, comma separated. Useful when behind a proxy or using multiple domains.
       # TRUSTED_PROXIES: 173.245.48.0/20,10.0.0.2 # Reverse proxy IPs or CIDR ranges, comma separated. Needed behind more than one proxy.
+      # AUTO_LOGIN_EMAIL: you@example.com # Skip the login screen as this existing user. Only on an instance nobody untrusted can reach.
 
       # ─────────────────────────────────────────────────────────────────────────
       # FIRST USER SETUP

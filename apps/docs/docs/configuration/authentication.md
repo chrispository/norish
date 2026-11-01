@@ -47,6 +47,25 @@ sign-in method is available at startup, password sign-in is turned back on.
 | ----------------------- | ------------------------------- | ------- |
 | `PASSWORD_AUTH_ENABLED` | Enable email and password login | Auto    |
 
+## Skipping the login screen
+
+On an instance nobody untrusted can reach, such as a homelab with no ingress,
+set `AUTO_LOGIN_EMAIL` to the email of an existing account. Opening Norish then
+signs that account in without showing the login form.
+
+:::danger
+Anyone who can load Norish is signed in as this user. Never set it on an
+instance reachable from the internet or from people you do not trust.
+:::
+
+Create the account first, through any sign-in method. If the email names no
+account, the login form is shown and a warning is logged. Logging out lands on
+the form, so other accounts in the household can still sign in.
+
+| Variable           | Description                                  | Default |
+| ------------------ | -------------------------------------------- | ------- |
+| `AUTO_LOGIN_EMAIL` | Existing account to sign in without a prompt | Unset   |
+
 ## OIDC
 
 Works with any OpenID Connect provider, like Authentik, Pocket ID or Keycloak.

@@ -124,6 +124,10 @@ const ServerConfigFields = z.object({
   // Reverse proxies (IPs or CIDR ranges, comma-separated) whose hops are
   // skipped in X-Forwarded-For, so the client behind several proxies is found
   TRUSTED_PROXIES: commaSeparatedList,
+  // Sign this existing user in automatically, skipping the login form. Only
+  // for an instance nobody untrusted can reach: anyone who can load the page
+  // is signed in as this user.
+  AUTO_LOGIN_EMAIL: z.email().optional(),
   UPLOADS_DIR: z.string().default(defaultUploadsDir),
 
   // Auth endpoint rate limiting. Defaults are the production values; they are

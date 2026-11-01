@@ -1,4 +1,8 @@
+import { redirect } from "next/navigation";
+
+import { AUTO_LOGIN_FAILED_PARAM, AUTO_LOGIN_PATH } from "@norish/auth/auto-login";
 import { getAvailableProviders } from "@norish/auth/providers";
+import { SERVER_CONFIG } from "@norish/config/env-config-server";
 import { isRegistrationEnabled } from "@norish/shared-server/config/server-config-loader";
 import { APP_ROOT } from "@norish/shared/lib/base-path";
 
@@ -13,8 +17,21 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
     isRegistrationEnabled(),
   ]);
 
-  const { callbackUrl, logout } = await searchParams;
+  const params = await searchParams;
+  const { callbackUrl, logout } = params;
   const justLoggedOut = logout === "true";
+  // A repeated parameter arrives as a list; only a single one is a destination.
+  const destination = typeof callbackUrl === "string" ? callbackUrl : APP_ROOT;
+
+  // With AUTO_LOGIN_EMAIL set there is no form to fill in. Logging out still
+  // lands on the form, so another account stays reachable.
+  if (
+    SERVER_CONFIG.AUTO_LOGIN_EMAIL &&
+    !justLoggedOut &&
+    params[AUTO_LOGIN_FAILED_PARAM] !== "true"
+  ) {
+    redirect(`/api/auth${AUTO_LOGIN_PATH}?${new URLSearchParams({ callbackURL: destination })}`);
+  }
 
   // Only auto-redirect for single OAuth provider
   const oauthProviders = providers.filter((p) => p.type === "oauth");
@@ -24,8 +41,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
   return (
     <LoginClient
       autoRedirect={shouldAutoRedirect}
-      // A repeated parameter arrives as a list; only a single one is a destination.
-      callbackUrl={typeof callbackUrl === "string" ? callbackUrl : APP_ROOT}
+      callbackUrl={destination}
       providers={providers}
       registrationEnabled={registrationEnabled}
     />

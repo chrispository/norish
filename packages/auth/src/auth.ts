@@ -22,6 +22,7 @@ import { keepsOfferedSignInMethod, LAST_SIGN_IN_METHOD } from "@norish/shared/co
 import { addBasePath } from "@norish/shared/lib/base-path";
 
 import { consumeApiKeyRequest } from "./api-key-rate-limit";
+import { autoLogin } from "./auto-login";
 import {
   getPendingOIDCProfile,
   mergeOIDCTokenClaims,
@@ -523,6 +524,8 @@ function createBetterAuth() {
         customAPIKeyValidator: ({ key }) => consumeApiKeyRequest(key),
         apiKeyHeaders: [...API_KEY_HEADERS],
       }),
+
+      autoLogin(SERVER_CONFIG.AUTO_LOGIN_EMAIL),
 
       nextCookies(),
     ],
