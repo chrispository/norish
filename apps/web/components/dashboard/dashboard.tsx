@@ -9,6 +9,7 @@ import RecipeViewModeToggle, {
   RecipeViewModeTabs,
 } from "@/components/dashboard/recipe-view-mode-toggle";
 import SearchInput from "@/components/dashboard/search-input";
+import TagFilterChips from "@/components/dashboard/tag-filter-chips";
 import TodaysMeals from "@/components/dashboard/today/todays-meals";
 import RecipeGridSkeleton from "@/components/skeleton/recipe-grid-skeleton";
 import { Tabs } from "@heroui/react";
@@ -30,6 +31,7 @@ function RecipeLibrary({ skeleton }: { skeleton: boolean }) {
 
           <div className="flex min-w-0 flex-col gap-2">
             <SearchInput />
+            <TagFilterChips />
             <LibraryTypeChips />
           </div>
         </div>

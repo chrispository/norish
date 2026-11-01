@@ -11,6 +11,7 @@ import { useDebounceValue } from "usehooks-ts";
 import { isUrl } from "@norish/shared/lib/helpers";
 
 import Filters from "../shared/filters";
+import SearchFieldDropdown from "./search-field-dropdown";
 
 export default function SearchInput() {
   const t = useTranslations("recipes.dashboard");
@@ -97,6 +98,7 @@ export default function SearchInput() {
           </button>
         )}
       </div>
+      <SearchFieldDropdown />
       <Filters />
     </div>
   );
